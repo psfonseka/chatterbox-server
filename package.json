@@ -14,7 +14,8 @@
     "start:es6": "babel-node server/basic-server.js",
     "test": "mocha server/spec",
     "test:es6": "mocha --compilers js:babel-register server/spec",
-    "lint": "eslint ./"
+    "lint": "eslint ./",
+    "start:exp": "node server/express-server.js"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
@@ -31,7 +32,9 @@
     ]
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "express": "^4.17.1",
     "http": "0.0.0",
     "nodemon": "^1.19.1",
     "underscore": "^1.9.1"

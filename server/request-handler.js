@@ -50,7 +50,7 @@ const requestHandler = function(request, response) {
     let newmsg = '';
     request.on('data', (cb) => {
       newmsg += cb;
-      messagesArr.push(JSON.parse(newmsg));
+      messagesArr.unshift(JSON.parse(newmsg));
       const msgs = JSON.stringify({'results': messagesArr});
       response.writeHead(statusCode, headers); 
       response.end(msgs);
