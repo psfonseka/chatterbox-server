@@ -30,12 +30,14 @@ const requestHandler = function(request, response) {
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
   // See the note below about CORS headers.
   const headers = defaultCorsHeaders;
-  if(request.method === 'GET') {
-    if (request.url !== "/classes/messages") {
+  if(request.method === 'GET' || request.method === 'OPTIONS') {
+    //headers['Content-Type'] = 'application/json';
+    if (!(request.url.includes("/classes/messages"))) {
       const statusCode = 404;
       response.writeHead(statusCode, headers);
       response.end("Error: Not Found!");
     } else {
+      headers['Content-Type'] = 'application/json';
       const statusCode = 200;
       const msgs = JSON.stringify({'results': messagesArr});
       response.writeHead(statusCode, headers); 
@@ -52,12 +54,12 @@ const requestHandler = function(request, response) {
       response.end(msgs);
     });
   } else {
+    headers['Content-Type'] = 'application/json';
     const statusCode = 200;
     const msgs = JSON.stringify({'results': messagesArr});
     response.writeHead(statusCode, headers); 
     response.end(msgs);
   }
-
 
   // Tell the client we are sending them plain text.
   //
