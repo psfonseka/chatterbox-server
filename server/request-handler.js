@@ -38,6 +38,7 @@ const requestHandler = function(request, response) {
       response.end("Error: Not Found!");
     } else {
       headers['Content-Type'] = 'application/json';
+      //console.log(headers);
       const statusCode = 200;
       const msgs = JSON.stringify({'results': messagesArr});
       response.writeHead(statusCode, headers); 
@@ -45,6 +46,7 @@ const requestHandler = function(request, response) {
     }
   } else if(request.method === 'POST') {
     const statusCode = 201;
+    console.log(messagesArr);
     let newmsg = '';
     request.on('data', (cb) => {
       newmsg += cb;
