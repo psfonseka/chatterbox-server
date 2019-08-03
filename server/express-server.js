@@ -39,19 +39,19 @@ app.get('/', (req, res) => {
 
 app.get('/classes/messages', (req, res) => {
     res.type('json');
-    res.send(JSON.stringify({'results': messages.reverse()}));
+    res.send(JSON.stringify({results: messages.slice().reverse()}));
     console.log('get request');
 });
 
 
 app.post('/+(classes/messages)?', (req, res) => {
-    messages.unshift(req.body);
+    messages.push(req.body);
     res.type('json');
     //console.log(messages);
     fs.appendFile('./data/data.txt', '\n' + JSON.stringify(req.body), function (err) {
         if (err) throw err;
     });
-    res.send(JSON.stringify({'results': messages}));
+    res.send(JSON.stringify({results: messages.slice().reverse()}));
 });
 
 app.listen(port, () => console.log('Example app listening on port ' + port + '!'));
