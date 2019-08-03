@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 const stream = require('stream');
-var instream = fs.createReadStream('./data/data.json');
+var instream = fs.createReadStream('./data/data.txt');
 var outstream = new stream;
 var rl = readline.createInterface(instream, outstream);
 
@@ -25,13 +25,12 @@ let messages = [];
 
 rl.on('line', function(line) {
     // process line here
+    line = JSON.parse(line);
     messages.push(line);
 });
 
 rl.on('close', function() {
-    // do something on finish here
-   // console.log('arr', messages);
-   messages = JSON.parse(messages);
+   //console.log(messages);
 });
 
 app.get('/', (req, res) => {
@@ -40,7 +39,7 @@ app.get('/', (req, res) => {
 
 app.get('/classes/messages', (req, res) => {
     res.type('json');
-    res.send(JSON.stringify({'results': messages}));
+    res.send(JSON.stringify({'results': messages.reverse()}));
     console.log('get request');
 });
 
@@ -48,15 +47,11 @@ app.get('/classes/messages', (req, res) => {
 app.post('/+(classes/messages)?', (req, res) => {
     messages.unshift(req.body);
     res.type('json');
-    console.log(messages);
+    //console.log(messages);
+    fs.appendFile('./data/data.txt', '\n' + JSON.stringify(req.body), function (err) {
+        if (err) throw err;
+    });
     res.send(JSON.stringify({'results': messages}));
-    // var jsonData = JSON.stringify(messages.slice());
-    // console.log(messages);
-    // console.log(jsonData);
-    // fs.writeFile("./data/data.json", jsonData, function(err) {
-    // res.json({ success: true });
-    // });
-    // console.log('post request');
 });
 
 app.listen(port, () => console.log('Example app listening on port ' + port + '!'));
