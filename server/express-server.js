@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 const stream = require('stream');
-var instream = fs.createReadStream('./data/data.txt');
+var instream = fs.createReadStream(__dirname + '/data/data.txt');
 var outstream = new stream;
 var rl = readline.createInterface(instream, outstream);
 
@@ -48,7 +48,7 @@ app.post('/+(classes/messages)?', (req, res) => {
     messages.push(req.body);
     res.type('json');
     //console.log(messages);
-    fs.appendFile('./data/data.txt', '\n' + JSON.stringify(req.body), function (err) {
+    fs.appendFile(__dirname + '/data/data.txt', '\n' + JSON.stringify(req.body), function (err) {
         if (err) throw err;
     });
     res.send(JSON.stringify({results: messages.slice().reverse()}));
